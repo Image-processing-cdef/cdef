@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serverless Image processing </title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #2a2f32;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="doodleCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('doodleCanvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = '#2a2f32'; 
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = '#a3bcb6'; 
+
+        function drawHexagon(x, y, size = 15) {
+    ctx.beginPath();
+    for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i;
+        const xOffset = x + size * Math.cos(angle);
+        const yOffset = y + size * Math.sin(angle);
+        ctx.lineTo(xOffset, yOffset);
+    }
+    ctx.closePath();
+    ctx.stroke();
+}
+function drawDoodlePattern() {
+    for (let i = 20; i < canvas.width; i += 60) {
+        for (let j = 20; j < canvas.height; j += 60) {
+            drawHexagon(i, j, Math.random() * 10 + 5);
+        }
+    }
+}
+        drawDoodlePattern();
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            ctx.fillStyle = '#2a2f32';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            drawDoodlePattern();
+        });
+    </script>
+</body>
+</html>
+
